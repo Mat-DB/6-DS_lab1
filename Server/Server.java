@@ -10,7 +10,6 @@ public class Server implements Runnable {
     private InputStream input;
 
 
-
     public Server() throws IOException {
         serverSocket = new ServerSocket(5000);
     }
@@ -42,6 +41,16 @@ public class Server implements Runnable {
             input = socket.getInputStream();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        try {
+            System.out.println(this.getInput());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.SendOutput("hello world");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

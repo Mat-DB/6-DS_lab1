@@ -7,32 +7,22 @@ public class Client implements Runnable {
     Socket socket;
     OutputStream output;
     InputStream input;
-    byte[] data = {'t', 'e', 's', 't', 'g', 'r', 'o', 'e', 'p', '3' , '\n'};
     String hostname = "127.0.0.1";
     int port = 5000;
 
-    public void ClientSetup() throws IOException {
+    public Client() throws IOException {
         socket = new Socket(hostname, port);
     }
 
-    public void sendData() throws IOException {
-        output = socket.getOutputStream();
-        output.write(data);
+    public void SendOutput(String data) throws IOException {
+        OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
-        writer.println("test message");
+        writer.println(data);
     }
 
-    public void readData() throws IOException {
-        input = socket.getInputStream();
-        input.read(data);
-
-        //InputStreamReader reader = new InputStreamReader(input);
-        //int character = reader.read();  // reads a single character
-
+    public String getInput() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        String line = reader.readLine();    // reads a line of text
-        System.out.println(line);
-
+        return reader.readLine();
     }
 
     public void ClientClose() throws IOException {
@@ -42,5 +32,20 @@ public class Client implements Runnable {
     @Override
     public void run() {
         System.out.println("Client is attempting to connect");
+        try {
+            this.SendOutput("testgroep3");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            input = socket.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            System.out.println(this.getInput());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
