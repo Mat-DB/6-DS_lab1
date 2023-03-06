@@ -8,9 +8,11 @@ public class Client {
     OutputStream output;
     InputStream input;
     byte[] data = {'t', 'e', 's', 't', 'g', 'r', 'o', 'e', 'p', '3'};
+    String hostname = "127.0.0.1";
+    int port = 5000;
 
     public void ClientSetup() throws IOException {
-        socket = new Socket("127.0.0.1", 5000);
+        socket = new Socket(hostname, port);
     }
 
     public void sendData() throws IOException {
