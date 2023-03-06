@@ -4,16 +4,15 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
-    ServerSocket serverSocket;
-    Socket socket;
-    InputStream input;
+public class Server implements Runnable {
+    private final ServerSocket serverSocket;
+    private Socket socket;
+    private InputStream input;
+
 
 
     public Server() throws IOException {
         serverSocket = new ServerSocket(5000);
-        socket = serverSocket.accept();
-        input = socket.getInputStream();
     }
 
     public String getInput() throws IOException {
@@ -29,5 +28,20 @@ public class Server {
 
     public void close() throws IOException {
         serverSocket.close();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("server is listening on port 5000");
+        try {
+            socket = serverSocket.accept();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            input = socket.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
